@@ -25,6 +25,7 @@ local.properties
 proguard/
 
 *.class
+*.idea
 
 # Package Files #
 *.jar
