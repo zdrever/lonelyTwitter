@@ -10,13 +10,10 @@ public abstract class Tweet implements Tweetable{
     private String tweet;
     String mood;
 
-    Tweet(){
-        this.date = new Date();
-    }
-
-    Tweet(String tweet){
+    Tweet(String tweet, Date date){
         this.tweet = tweet;
-        this.date = new Date();
+        this.date = date;
+
     }
 
     public Date getDate(){ return this.date; }
@@ -28,6 +25,9 @@ public abstract class Tweet implements Tweetable{
         } else {
             throw new TweetTooLongException();
         }
+    }
+    public String toString(){
+        return this.mood +  "\n" + this.getTweet() + "\n" +  this.getDate();
     }
     public abstract void setMood();
 }
