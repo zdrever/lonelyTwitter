@@ -28,6 +28,8 @@ import com.google.gson.reflect.TypeToken;
 public class LonelyTwitterActivity extends Activity {
 	private LonelyTwitterActivity activity = this;
 
+	public static final String TWEET = "TWEET";
+
 	private static final String FILENAME = "file.sav";
 	private EditText bodyText;
 	private ListView oldTweetsList;
@@ -74,6 +76,7 @@ public class LonelyTwitterActivity extends Activity {
 		oldTweetsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 				Intent intent = new Intent(activity, EditTweetActivity.class);
+				intent.putExtra(TWEET, tweetList.get(i));
 				startActivity(intent);
 			}
 		});
