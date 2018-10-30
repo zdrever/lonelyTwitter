@@ -3,25 +3,26 @@ package ca.ualberta.cs.lonelytwitter;
 import java.util.ArrayList;
 
 public class TweetList {
-    private ArrayList<Tweet> Tweets = new ArrayList<Tweet>();
+    // make final as it is not reassigned
+    private final ArrayList<SimpleTweet> simpleTweets = new ArrayList<SimpleTweet>();
 
     public TweetList() {
 
     }
 
-    public Tweet getTweet(int index){
-        return Tweets.get(index);
+    public SimpleTweet getTweet(int index){
+        return simpleTweets.get(index);
     }
 
-    public boolean hasTweet(Tweet Tweet){
-        return Tweets.contains(Tweet);
+    public boolean hasTweet(SimpleTweet SimpleTweet){
+        return simpleTweets.contains(SimpleTweet);
     }
 
-    public void add(Tweet Tweet) {
-        Tweets.add(Tweet);
+    public void add(SimpleTweet SimpleTweet) {
+        simpleTweets.add(SimpleTweet);
     }
 
-    public void delete(Tweet Tweet) {
-        Tweets.remove(Tweet);
+    public void delete(SimpleTweet SimpleTweet) {
+        simpleTweets.remove(SimpleTweet);
     }
 }

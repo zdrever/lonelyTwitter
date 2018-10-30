@@ -1,8 +1,8 @@
 package ca.ualberta.cs.lonelytwitter;
 
-public class ImportantTweet extends Tweet {
+public class ImportantSimpleTweet extends SimpleTweet {
 
-    public ImportantTweet(String message){
+    public ImportantSimpleTweet(String message) throws TweetTooLongException {
         super(message);
     }
 
@@ -10,7 +10,4 @@ public class ImportantTweet extends Tweet {
     public Boolean isImportant(){
         return Boolean.TRUE;
     }
-
-
-
 }

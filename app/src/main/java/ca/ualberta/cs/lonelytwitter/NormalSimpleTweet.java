@@ -1,8 +1,8 @@
 package ca.ualberta.cs.lonelytwitter;
 
-public class NormalTweet extends Tweet {
+public class NormalSimpleTweet extends SimpleTweet {
 
-    public NormalTweet(String message) {
+    public NormalSimpleTweet(String message) throws TweetTooLongException {
         super(message);
     }
 

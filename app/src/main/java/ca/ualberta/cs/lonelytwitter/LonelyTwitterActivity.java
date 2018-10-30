@@ -24,13 +24,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class LonelyTwitterActivity extends Activity {
-	private LonelyTwitterActivity activity = this;
+	// make final since it is not reassigned
+	private final LonelyTwitterActivity activity = this;
 
 	private static final String FILENAME = "file.sav";
 	private EditText bodyText;
 	private ListView oldTweetsList;
-	private ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
-	private ArrayAdapter<Tweet> adapter;
+	private ArrayList<SimpleTweet> simpleTweetList = new ArrayList<SimpleTweet>();
+	private ArrayAdapter<SimpleTweet> adapter;
 
 	public ListView getOldTweetsList(){
 		return oldTweetsList;
@@ -51,8 +52,14 @@ public class LonelyTwitterActivity extends Activity {
 			public void onClick(View v) {
 				setResult(RESULT_OK);
 				String text = bodyText.getText().toString();
-				Tweet newTweet = new NormalTweet(text);
-				tweetList.add(newTweet);
+				SimpleTweet newSimpleTweet = null;
+				// Surround with Try/Catch to ensure safety.
+				try {
+					newSimpleTweet = new NormalSimpleTweet(text);
+				} catch (TweetTooLongException e) {
+					e.printStackTrace();
+				}
+				simpleTweetList.add(newSimpleTweet);
 				adapter.notifyDataSetChanged();
 				saveInFile();
 			}
@@ -62,7 +69,7 @@ public class LonelyTwitterActivity extends Activity {
 
 			public void onClick(View v) {
 				setResult(RESULT_OK);
-				tweetList.clear();
+				simpleTweetList.clear();
 				deleteFile("file.sav");
 				adapter.notifyDataSetChanged();
 
@@ -84,8 +91,8 @@ public class LonelyTwitterActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onStart();
 		loadFromFile();
-		adapter = new ArrayAdapter<Tweet>(this,
-				R.layout.list_item, tweetList);
+		adapter = new ArrayAdapter<SimpleTweet>(this,
+				R.layout.list_item, simpleTweetList);
 		oldTweetsList.setAdapter(adapter);
 	}
 
@@ -96,11 +103,11 @@ public class LonelyTwitterActivity extends Activity {
 			BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 			Gson gson = new Gson();
 			//Code taken from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt Sept.22,2016
-			Type listType = new TypeToken<ArrayList<NormalTweet>>(){}.getType();
-			tweetList = gson.fromJson(in, listType);
+			Type listType = new TypeToken<ArrayList<NormalSimpleTweet>>(){}.getType();
+			simpleTweetList = gson.fromJson(in, listType);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			tweetList = new ArrayList<Tweet>();
+			simpleTweetList = new ArrayList<SimpleTweet>();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			throw new RuntimeException();
@@ -114,7 +121,7 @@ public class LonelyTwitterActivity extends Activity {
 			FileOutputStream fos = openFileOutput(FILENAME,0);
 			OutputStreamWriter writer = new OutputStreamWriter(fos);
 			Gson gson = new Gson();
-			gson.toJson(tweetList, writer);
+			gson.toJson(simpleTweetList, writer);
 			writer.flush();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
